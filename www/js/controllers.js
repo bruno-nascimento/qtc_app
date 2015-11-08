@@ -87,7 +87,7 @@ angular.module('starter.controllers', [])
     };
 })
 
-.controller('LoginCtrl', function($scope, $timeout, $stateParams, ionicMaterialInk, $ionicLoading, $state, $http, $localstorage) {
+.controller('LoginCtrl', function($scope, $timeout, $stateParams, ionicMaterialInk, $ionicLoading, $state, $http, $localstorage, $ionicPopup) {
     $scope.$parent.clearFabs();
     $scope.usuario = {};
     $timeout(function() {
@@ -113,7 +113,14 @@ angular.module('starter.controllers', [])
                 $state.go('app.profile'); 
             }, function(error){
                 $ionicLoading.hide();
-                window.alert(err);
+                var alertPopup = $ionicPopup.alert({
+                    title: 'Putz!',
+                    template: 'Estamos muito constrangidos em dizer que ... nosso aplicativo não funciona como esperado e você não vai conseguir conversar com os seus amigos, infelizmente. Verifique a sua conexão com a internet e tente novamente, se quiser ou achar que deva.'
+                });
+                console.log('erro ao registrar o usuario', JSON.stringify(error));
+                $timeout(function() {
+                    ionicMaterialInk.displayEffect();
+                }, 0);
             });
     }
 })
