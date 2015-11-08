@@ -1,0 +1,18 @@
+{
+  "name": "QTC",
+  "private": "true",
+  "devDependencies": {
+    "ionic": "driftyco/ionic-bower#1.1.0"
+  },
+  "resolutions": {
+    "ionic": "1.1.0",
+    "angular-animate": "1.4.3",
+    "angular-sanitize": "1.4.3",
+    "angular": "1.4.3"
+  },
+  "dependencies": {
+    "robotodraft": "~1.1.0",
+    "ionic-material": "~0.4.2",
+    "ion-md-input": "~1.0.4"
+  }
+}
