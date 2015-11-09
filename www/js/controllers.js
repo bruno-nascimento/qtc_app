@@ -87,44 +87,6 @@ angular.module('starter.controllers', [])
     };
 })
 
-.controller('LoginCtrl', function($scope, $timeout, $stateParams, ionicMaterialInk, $ionicLoading, $state, $http, $localstorage, $ionicPopup) {
-    $scope.$parent.clearFabs();
-    $scope.usuario = {};
-    $timeout(function() {
-        $scope.$parent.hideHeader();
-    }, 0);
-    ionicMaterialInk.displayEffect();
-
-    $scope.sendData = function(){
-        $ionicLoading.show({template: '<div class="loader"><svg class="circular"><circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/></svg></div>'});
-            
-            var req = {
-                method: 'POST',
-                url: 'http://server-qtcapp.rhcloud.com/register_user',
-                // headers: {
-                //     'Content-Type': undefined
-                // },
-                data: $scope.usuario
-            }
-
-            $http(req).then(function(success){
-                $ionicLoading.hide();
-                $localstorage.setObject('usuario',success.data);
-                $state.go('app.profile'); 
-            }, function(error){
-                $ionicLoading.hide();
-                var alertPopup = $ionicPopup.alert({
-                    title: 'Putz!',
-                    template: 'Estamos muito constrangidos em dizer que ... nosso aplicativo não funciona como esperado e você não vai conseguir conversar com os seus amigos, infelizmente. Verifique a sua conexão com a internet e tente novamente, se quiser ou achar que deva.'
-                });
-                console.log('erro ao registrar o usuario', JSON.stringify(error));
-                $timeout(function() {
-                    ionicMaterialInk.displayEffect();
-                }, 0);
-            });
-    }
-})
-
 .controller('FriendsCtrl', function($scope, $stateParams, $timeout, ionicMaterialInk, ionicMaterialMotion) {
     // Set Header
     $scope.$parent.showHeader();
@@ -144,7 +106,14 @@ angular.module('starter.controllers', [])
     ionicMaterialInk.displayEffect();
 })
 
-.controller('ProfileCtrl', function($scope, $stateParams, $timeout, ionicMaterialMotion, ionicMaterialInk) {
+.controller('NovoChatCtrl', function($scope, $stateParams, $timeout, ionicMaterialMotion, ionicMaterialInk, $camera, $loadingService, $http, $state) {
+    $scope.$parent.clearFabs();
+    $scope.usuario = {};
+    ionicMaterialInk.displayEffect();
+
+})
+
+.controller('ProfileCtrl', function($scope, $stateParams, $timeout, ionicMaterialMotion, ionicMaterialInk, $camera, $loadingService, $http, $state) {
     // Set Header
     $scope.$parent.showHeader();
     $scope.$parent.clearFabs();
@@ -163,10 +132,44 @@ angular.module('starter.controllers', [])
         ionicMaterialMotion.fadeSlideInRight({
             startVelocity: 3000
         });
+        //$camera.getPicture().then(function(res){console.log(res)});
     }, 700);
 
     // Set Ink
     ionicMaterialInk.displayEffect();
+
+    document.getElementById('fab-profile').onclick = function(){
+        $state.go('app.chat-novo');
+    }
+
+    $scope.salas = [];
+
+    $scope.carregarSalas = function(){
+        $loadingService.start();
+        
+        var req = {
+            method: 'GET',
+            url: 'http://server-qtcapp.rhcloud.com/rooms', //http://localhost:8080/rooms
+        }
+
+        $http(req).then(function(success){
+            $scope.salas = success.data;
+            $loadingService.stop();
+            console.log(success);
+        }, function(error){
+            console.log(error);
+            $loadingService.stop();
+            var alertPopup = $ionicPopup.alert({
+                title: 'Putz!',
+                template: 'Estamos muito constrangidos em dizer que ... nosso aplicativo não funciona como esperado e você não vai conseguir conversar com os seus amigos, infelizmente. Verifique a sua conexão com a internet e tente novamente, se achar que deva.'
+            });
+            console.log('erro ao carregar as salas de bate papo : ', JSON.stringify(error));
+            $timeout(function() {
+                ionicMaterialInk.displayEffect();
+            }, 0);
+        });
+    }
+    $scope.carregarSalas();
 })
 
 .controller('ActivityCtrl', function($scope, $stateParams, $timeout, ionicMaterialMotion, ionicMaterialInk) {

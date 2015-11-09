@@ -1,0 +1,28 @@
+<ion-view view-title="Nova sala de bate papo" align-title="left">
+    <ion-content> <!-- style="background-color:grey;" -->
+        <div class="no-header">
+            <div class="content">
+                <div class="app-icon"></div>
+            </div>
+        </div>
+        <form ng-submit="sendData()">
+            <div class="list">
+                <div class="cabecalho">
+                    <h4 class="text">Primeira vez?</h4>
+                    <h5 class="text">Precisamos de algumas informações suas</h5>
+                </div>
+                <ion-md-input ng-model="usuario.apelido" placeholder="Apelido" highlight-color="balanced" type="text" required next></ion-md-input>
+                <ion-md-input ng-model="usuario.nome" placeholder="Nome" highlight-color="energized" type="text" required next></ion-md-input>
+                <ion-md-input ng-model="usuario.email" placeholder="E-mail" highlight-color="energized" type="text" required next></ion-md-input>
+                <ion-md-input ng-model="usuario.senha" placeholder="Senha" highlight-color="energized" type="password" required next></ion-md-input>
+                <ion-md-input ng-model="usuario.confirmacao" placeholder="Confirmação da senha" highlight-color="energized" type="password" required></ion-md-input>
+                <div>
+                    <h5 class="text rodape">Você poderá alterar estas e incluir outras informações posteriormente, editando o seu perfil no aplicativo.</h5>
+                </div>
+            </div>
+            <div class="padding">
+                <button class="button button-full button-assertive ink" tabindex="6" type="submit">Enviar</button>
+            </div>
+        </form>
+    </ion-content>
+</ion-view>
