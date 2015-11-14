@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'ionic-material', 'ionMdInput', 'ngCordova'])
+angular.module('starter', ['ionic', 'starter.controllers', 'ionic-material', 'ionMdInput', 'ngCordova','monospaced.elastic', 'angularMoment'])
 
 .run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
@@ -22,7 +22,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ionic-material', 'io
 
 .config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider, $compileProvider) {
 
-    $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel):/);
+    $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel|unsafe|content|unsafe:|unsafe:content|data):/);
+    // $ionicConfigProvider.platform.android.scrolling.jsScrolling(false);
 
     // Turn off caching for demo simplicity's sake
     $ionicConfigProvider.views.maxCache(0);
@@ -109,8 +110,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ionic-material', 'io
                 }
             }
         }
-    })
-    
+    })    
 
     .state('app.chat-novo', {
         url: '/chat/novo',

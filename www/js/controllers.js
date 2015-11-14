@@ -106,14 +106,85 @@ angular.module('starter.controllers', [])
     ionicMaterialInk.displayEffect();
 })
 
-.controller('NovoChatCtrl', function($scope, $stateParams, $timeout, ionicMaterialMotion, ionicMaterialInk, $camera, $loadingService, $http, $state) {
+.controller('NovoChatCtrl', function($scope, $stateParams, $timeout, ionicMaterialMotion, ionicMaterialInk, $ionicPopup, $loadingService, $camera, $http, $state, $q, $cordovaFile) {
     $scope.$parent.clearFabs();
-    $scope.usuario = {};
+    $scope.sala = {};
+    $scope.img_sala_base64 = "";
     ionicMaterialInk.displayEffect();
 
+    $scope.imgOptions = angular.copy($camera.getDefaultOptions());
+
+    $scope.carregarImagemGaleria = function(){
+        //Camera.PictureSourceType.PHOTOLIBRARY
+        $scope.imgOptions.sourceType = 0;
+        $camera.getPicture($scope.imgOptions).then(function(res){
+            if (res.startsWith("content://")) {
+                window.FilePath.resolveNativePath(res, function(localFileUri) {
+                    window.resolveLocalFileSystemURL("file://" + localFileUri, function(fileEntry) {
+                        var path = fileEntry.nativeURL.substr(0, fileEntry.nativeURL.lastIndexOf('/') + 1);
+                        var file = fileEntry.nativeURL.substr(fileEntry.nativeURL.lastIndexOf('/') + 1);
+                        $cordovaFile.readAsDataURL(path, file).then(function(base64String){
+                            $scope.img_sala_base64 = base64String;
+                        }, function(error){
+                            $ionicPopup.alert({
+                                title: 'Putz!',
+                                template: 'Estamos muito constrangidos em dizer que ... ocorreu um erro ao processar a imagem que você escolheu ... por favor selecione outra ...  ou melhorainda! nenhuma talvez =]'
+                            });
+                        });
+                    });
+                });
+            }
+            $scope.sala.imagem = res;
+        });
+    }
+
+    $scope.tirarFoto = function(){
+        //Camera.PictureSourceType.CAMERA
+        $scope.imgOptions.sourceType = 1;
+        $camera.getPicture($scope.imgOptions).then(function(res){
+            var path = res.substr(0, res.lastIndexOf('/') + 1);
+            var file = res.substr(res.lastIndexOf('/') + 1);
+            $cordovaFile.readAsDataURL(path, file).then(function(base64String){
+                $scope.img_sala_base64 = base64String;
+            }, function(error){
+                $ionicPopup.alert({
+                    title: 'Putz!',
+                    template: 'Estamos muito constrangidos em dizer que ... ocorreu um erro ao processar a imagem que você escolheu ... por favor selecione outra ...  ou melhorainda! nenhuma talvez =]'
+                });
+            });
+            $scope.sala.imagem = res;
+        });
+    }
+
+    $scope.cadastrarSala = function(){
+        var bkp_img = angular.copy($scope.sala.imagem);
+        $scope.sala.imagem = $scope.img_sala_base64;
+        var req = {
+            method: 'POST',
+            url: 'http://server-qtcapp.rhcloud.com/room', //http://localhost:8080/rooms
+            data: $scope.sala
+        }
+
+        $http(req).then(function(success){
+            $scope.sala.imagem = bkp_img;
+            $loadingService.stop();
+            $state.go('app.profile');
+        }, function(error){
+            console.log(error);
+            $loadingService.stop();
+            var alertPopup = $ionicPopup.alert({
+                title: 'Putz!',
+                template: 'Estamos muito constrangidos em dizer que ... nosso aplicativo não funciona como esperado e você não vai conseguir conversar com os seus amigos, infelizmente. Verifique a sua conexão com a internet e tente novamente, se achar que deva.'
+            });
+            console.log('erro ao gravar a sala de bate papo : ', JSON.stringify(error));
+            $timeout(function() {
+                ionicMaterialInk.displayEffect();
+            }, 0);
+        });
+    }
 })
 
-.controller('ProfileCtrl', function($scope, $stateParams, $timeout, ionicMaterialMotion, ionicMaterialInk, $camera, $loadingService, $http, $state) {
+.controller('ProfileCtrl', function($scope, $stateParams, $timeout, ionicMaterialMotion, ionicMaterialInk, $camera, $loadingService, $http, $state, $ionicPopup) {
     // Set Header
     $scope.$parent.showHeader();
     $scope.$parent.clearFabs();
@@ -121,26 +192,29 @@ angular.module('starter.controllers', [])
     $scope.$parent.setExpanded(false);
     $scope.$parent.setHeaderFab(false);
 
-    // Set Motion
-    $timeout(function() {
-        ionicMaterialMotion.slideUp({
-            selector: '.slide-up'
-        });
-    }, 300);
+    $scope.animar = function(){
+        $timeout(function() {
+            ionicMaterialMotion.slideUp({
+                selector: '.slide-up'
+            });
+        }, 300);
 
-    $timeout(function() {
-        ionicMaterialMotion.fadeSlideInRight({
-            startVelocity: 3000
-        });
-        //$camera.getPicture().then(function(res){console.log(res)});
-    }, 700);
+        $timeout(function() {
+            ionicMaterialMotion.fadeSlideInRight({
+                startVelocity: 3000
+            });        
+        }, 700);
 
-    // Set Ink
-    ionicMaterialInk.displayEffect();
+        // Set Ink
+        ionicMaterialInk.displayEffect();    
+    }// Set Motion
+    
 
     document.getElementById('fab-profile').onclick = function(){
         $state.go('app.chat-novo');
     }
+
+    $scope.animar();
 
     $scope.salas = [];
 
@@ -149,13 +223,19 @@ angular.module('starter.controllers', [])
         
         var req = {
             method: 'GET',
-            url: 'http://server-qtcapp.rhcloud.com/rooms', //http://localhost:8080/rooms
+            url: 'http://server-qtcapp.rhcloud.com/rooms' //http://localhost:8080/rooms
         }
 
         $http(req).then(function(success){
+            angular.forEach(success.data, function(sala){
+                if(sala.imagem && sala.imagem.data){
+                    sala.imagem.src = "data:image/"+sala.imagem.contentType+";base64,"+sala.imagem.data;
+                }
+            });
+
             $scope.salas = success.data;
             $loadingService.stop();
-            console.log(success);
+            $scope.animar();
         }, function(error){
             console.log(error);
             $loadingService.stop();

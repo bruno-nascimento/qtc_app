@@ -80,8 +80,8 @@ p {
 }
 
 .text{
-    color: #fff;
-    text-shadow: 0 1px 0px #000;
+    color: #000;
+    text-shadow: 0 1px 0px #fff;
     margin-left: 1rem;
     margin-bottom: -1%;
 }
@@ -89,4 +89,51 @@ p {
 .rodape{
     margin-top:1rem;
     margin-bottom: -2rem;
+}
+
+.item-md-label .input-label {
+    color: #000;
+}
+
+.item-md-label input {
+    background-color: #DEDEDE;
+}
+
+.item-md-label input{
+    color: #3B3B3B;
+}
+
+.item-input input, .item-input textarea{
+    width: 95%;
+}
+
+.card {
+    margin-left: 14px;
+    margin-right: 12px;
+    margin-top: 30px;
+}
+
+div .teste div span{
+    color: rgb(0, 0, 0);
+    font-family: RobotoDraft, Roboto, 'Helvetica Neue', 'Segoe UI', sans-serif;
+    font-size: 16px;
+    font-stretch: normal;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: bold;
+    height: 22px;
+    letter-spacing: 4px;
+    line-height: 22.8571px;
+    opacity: 0.7;
+}
+
+.center-img {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+.item-avatar>img:first-child {
+    max-height: 58px;
+    max-width: 55px;
 }

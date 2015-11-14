@@ -1,28 +1,29 @@
 <ion-view view-title="Nova sala de bate papo" align-title="left">
     <ion-content> <!-- style="background-color:grey;" -->
         <div class="no-header">
-            <div class="content">
-                <div class="app-icon"></div>
-            </div>
         </div>
-        <form ng-submit="sendData()">
+        <form ng-submit="cadastrarSala()">
             <div class="list">
-                <div class="cabecalho">
-                    <h4 class="text">Primeira vez?</h4>
-                    <h5 class="text">Precisamos de algumas informações suas</h5>
+                <ion-md-input ng-model="sala.nome" placeholder="Nome" highlight-color="assertive" type="text" required next></ion-md-input>
+                <ion-md-input ng-model="sala.descricao" placeholder="Descrição" highlight-color="assertive" type="text" required next></ion-md-input>
+               
+                <div class="list card stable-bg">
+                    <img src="{{sala.imagem || 'img/placeholder.png'}}" class="center-img">
+                    <div class="button-bar">
+                        <a href="" class="button icon ion-images button-raised ink-dark" ng-click="carregarImagemGaleria()"> Galeria</a>
+                        <a href="" class="button icon ion-android-camera button-raised ink-dark" ng-click="tirarFoto()"> Camera</a>
+                    </div>
                 </div>
-                <ion-md-input ng-model="usuario.apelido" placeholder="Apelido" highlight-color="balanced" type="text" required next></ion-md-input>
-                <ion-md-input ng-model="usuario.nome" placeholder="Nome" highlight-color="energized" type="text" required next></ion-md-input>
-                <ion-md-input ng-model="usuario.email" placeholder="E-mail" highlight-color="energized" type="text" required next></ion-md-input>
-                <ion-md-input ng-model="usuario.senha" placeholder="Senha" highlight-color="energized" type="password" required next></ion-md-input>
-                <ion-md-input ng-model="usuario.confirmacao" placeholder="Confirmação da senha" highlight-color="energized" type="password" required></ion-md-input>
-                <div>
-                    <h5 class="text rodape">Você poderá alterar estas e incluir outras informações posteriormente, editando o seu perfil no aplicativo.</h5>
-                </div>
+
+                <ion-toggle ng-model="sala.publica" toggle-class="toggle-assertive" class="teste">Sala privada?</ion-toggle>
+                <ion-md-input ng-model="sala.senha" placeholder="Senha" highlight-color="assertive" type="password" required ng-show="sala.publica"></ion-md-input>
+
             </div>
+
             <div class="padding">
-                <button class="button button-full button-assertive ink" tabindex="6" type="submit">Enviar</button>
+                <button class="button button-full button-assertive ink" tabindex="6" type="Criar">Enviar</button>
             </div>
+
         </form>
     </ion-content>
 </ion-view>

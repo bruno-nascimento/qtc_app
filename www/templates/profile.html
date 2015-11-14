@@ -2,7 +2,7 @@
     <ion-content ng-class="{expanded:$scope.isExpanded}">
         <div class="tabs tabs-dark tabs-icon-top static">
             <a ui-sref="app.activity" class="tab-item">
-                <i class="icon ion-arrow-graph-up-right"></i> Conversar privadas
+                <i class="icon ion-arrow-graph-up-right"></i> Conversas privadas
             </a>
             <a ui-sref="app.friends" class="tab-item">
                 <i class="icon ion-android-people"></i> Amigos
@@ -12,17 +12,19 @@
             </a>
         </div>
         <div class="list animate-fade-slide-in-right">
-            <a class="item item-avatar item-icon-right" ng-repeat="sala in salas">
-                <img src="{{sala.imagem ? sala.imagem : 'img/crown.jpg'}}">
+            <ion-item collection-repeat="sala in salas">
+                <a ui-sref="app.chat({room: sala._id})" class="item item-avatar item-icon-right">
+                <img src="{{sala.imagem.src ? sala.imagem.src : 'img/qtc_ico.jpg'}}">
                 <h2>{{sala.nome}}</h2>
-                <p>{{sala.nome}}</p>
+                <p>{{sala.descricao}}</p>
                 <i class="icon ion-person muted">{{sala.usuarios.length}}</i>
             </a>
+            </ion-item>
             <a class="item item-avatar item-icon-right" ng-show="salas.length < 1">
-                <img src="img/crown.jpg">
+                <img src="img/qtc_ico.jpg">
                 <h2>Nenhuma sala encontrada.</h2>
                 <p></p>
-                <!-- <i class="icon ion-chatbubble muted"></i> -->
+                <i>&nbsp;</i>
             </a>
         </div>
     </ion-content>

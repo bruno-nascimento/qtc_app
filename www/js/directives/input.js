@@ -6,7 +6,7 @@ angular.module('starter').directive("next",function() {
                 if(e.which == 13){
                     e.preventDefault();
                     scope.onNext ? scope.onNext() : void(0);
-                    element.next()[0].focus()
+                    element.next()[0].focus();
                 }
             });
         }
