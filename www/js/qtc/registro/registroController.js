@@ -9,6 +9,15 @@ angular.module('starter')
 
     $scope.sendData = function(){
         $loadingService.start();
+
+            if(!$scope.usuario.nome){
+                var alertPopup = $ionicPopup.alert({
+                    title: 'Opa!',
+                    template: 'Tudo bem que ainda esta muito longe de esta ser uma versão beta mas ... por favor, preencha ao menos um nome para o seu usuário de testes.'
+                });
+                $loadingService.stop();
+                return false;
+            }
             
             var req = {
                 method: 'POST',
