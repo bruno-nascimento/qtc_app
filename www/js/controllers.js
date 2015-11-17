@@ -85,6 +85,49 @@ angular.module('starter.controllers', [])
             fabs[0].remove();
         }
     };
+
+    /** 
+    MENU DIREITA
+    */
+    $scope.usuarios = [];
+
+    $scope.$on('criarMenuUsuarios', function(event, data){
+        $scope.usuarios = data.usuarios;
+    });
+
+    $scope.$on('adicionaMenuUsuarios', function(event, data){
+        for(var i = $scope.usuarios.length - 1; i >= 0; i--) {
+            if($scope.usuarios[i]._id === data._id) {
+               return;
+            }
+        }
+        $scope.usuarios.push(data);
+    });
+
+    $scope.$on('removeMenuUsuarios', function(event, data){
+        for(var i = $scope.usuarios.length - 1; i >= 0; i--) {
+            if($scope.usuarios[i]._id === data._id) {
+               $scope.usuarios.splice(i, 1);
+            }
+        }
+    });
+
+    $scope.toggleUsuario = function(usuario) {
+        if ($scope.isUsuarioShown(usuario)) {
+              $scope.shownUsuario = null;
+        } else {
+            $scope.shownUsuario = usuario;
+        }
+    };
+    
+    $scope.isUsuarioShown = function(usuario) {
+        return $scope.shownUsuario === usuario;
+    };
+
+    $scope.$on('atualizaNomeSalaMenuDireito', function(event, data){
+        $scope.room_name = data;
+    });
+
 })
 
 .controller('FriendsCtrl', function($scope, $stateParams, $timeout, ionicMaterialInk, ionicMaterialMotion) {
@@ -149,7 +192,7 @@ angular.module('starter.controllers', [])
             }, function(error){
                 $ionicPopup.alert({
                     title: 'Putz!',
-                    template: 'Estamos muito constrangidos em dizer que ... ocorreu um erro ao processar a imagem que você escolheu ... por favor selecione outra ...  ou melhorainda! nenhuma talvez =]'
+                    template: 'Estamos muito constrangidos em dizer que ... ocorreu um erro ao processar a imagem que você escolheu ... por favor selecione outra ...  ou melhor ainda! nenhuma talvez =]'
                 });
             });
             $scope.sala.imagem = res;
@@ -157,11 +200,12 @@ angular.module('starter.controllers', [])
     }
 
     $scope.cadastrarSala = function(){
+         $loadingService.start();
         var bkp_img = angular.copy($scope.sala.imagem);
         $scope.sala.imagem = $scope.img_sala_base64;
         var req = {
             method: 'POST',
-            url: 'http://server-qtcapp.rhcloud.com/room', //http://localhost:8080/rooms
+            url: 'http://server-qtcapp.rhcloud.com/room',//http://localhost:8080/room
             data: $scope.sala
         }
 
@@ -206,7 +250,7 @@ angular.module('starter.controllers', [])
         }, 700);
 
         // Set Ink
-        ionicMaterialInk.displayEffect();    
+         ionicMaterialInk.displayEffect();    
     }// Set Motion
     
 
@@ -214,7 +258,7 @@ angular.module('starter.controllers', [])
         $state.go('app.chat-novo');
     }
 
-    $scope.animar();
+    // $scope.animar();
 
     $scope.salas = [];
 
@@ -232,10 +276,9 @@ angular.module('starter.controllers', [])
                     sala.imagem.src = "data:image/"+sala.imagem.contentType+";base64,"+sala.imagem.data;
                 }
             });
-
             $scope.salas = success.data;
             $loadingService.stop();
-            $scope.animar();
+            // $scope.animar();
         }, function(error){
             console.log(error);
             $loadingService.stop();
@@ -244,9 +287,9 @@ angular.module('starter.controllers', [])
                 template: 'Estamos muito constrangidos em dizer que ... nosso aplicativo não funciona como esperado e você não vai conseguir conversar com os seus amigos, infelizmente. Verifique a sua conexão com a internet e tente novamente, se achar que deva.'
             });
             console.log('erro ao carregar as salas de bate papo : ', JSON.stringify(error));
-            $timeout(function() {
-                ionicMaterialInk.displayEffect();
-            }, 0);
+            // $timeout(function() {
+            //     ionicMaterialInk.displayEffect();
+            // }, 0);
         });
     }
     $scope.carregarSalas();

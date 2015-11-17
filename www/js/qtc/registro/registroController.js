@@ -13,9 +13,6 @@ angular.module('starter')
             var req = {
                 method: 'POST',
                 url: 'http://server-qtcapp.rhcloud.com/register_user', //http://localhost:8080/register_user
-                // headers: {
-                //     'Content-Type': undefined
-                // },
                 data: $scope.usuario
             }
 

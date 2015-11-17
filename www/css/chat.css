@@ -49,12 +49,12 @@ img.profile-pic.right {
 }
 
 .message {
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .message-detail {
   white-space: nowrap;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .bar.item-input-inset .item-input-wrapper input {
@@ -100,14 +100,14 @@ img.profile-pic.right {
 }
 
 .chat-bubble.right {
-  background-color: #158ffe;
+  background-color: #D32F2F;
   color: #fff;
   float: right;
   margin-right: 55px;
 }
 
 .chat-bubble.right:before {
-  background-color: #158ffe;
+  background-color: #D32F2F;
   right: 10px;
   -webkit-transform: rotate(118deg) skew(-5deg);
 }
@@ -149,3 +149,18 @@ a.autolinker {
   color: #3b88c3;
   text-decoration: none;
 }
+
+.chat-bubble.qtc {
+  background-color: #444;
+  color: #fff;
+  float: right;
+  margin-right: 55px;
+}
+
+.chat-bubble.qtc:before {
+  background-color: #444;
+  right: 10px;
+  -webkit-transform: rotate(118deg) skew(-5deg);
+}
+
+;

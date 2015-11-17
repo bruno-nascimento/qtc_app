@@ -1,16 +1,16 @@
 angular.module('starter')
 .config(function($stateProvider) {
     $stateProvider.state('app.chat', {
-        url: '/chat?room',
+        url: '/chat?room&room_name',
         views: {
             'menuContent': {
-                templateUrl: 'templates/chat.html',
+                templateUrl: 'js/qtc/chat/chat.html',
                 controller: 'ChatCtrl'
             },
             'fabContent': {
                 template: ''
             },
             css: 'css/chat.css'
-        }
+        },
     });
 });

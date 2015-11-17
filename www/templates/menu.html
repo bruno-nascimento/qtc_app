@@ -19,47 +19,68 @@
         </ion-header-bar>
         <ion-content class="stable-bg has-expanded-header">
             <ion-list>
-                <ion-item nav-clear menu-close ui-sref="app.activity">
-                    Activity
-                </ion-item>
-                <ion-item nav-clear menu-close ui-sref="app.login">
-                    Login
-                </ion-item>
                 <ion-item nav-clear menu-close ui-sref="app.profile">
-                    Profile
+                    Salas de bate papo
                 </ion-item>
-                <ion-item nav-clear menu-close ui-sref="app.friends">
-                    Friends
+                <ion-item nav-clear menu-close> <!-- ui-sref="app.activity" -->
+                    *Perfil
                 </ion-item>
-                <ion-item nav-clear menu-close ui-sref="app.gallery">
-                    Gallery
+                <ion-item nav-clear menu-close> <!-- ui-sref="app.activity" -->
+                    *Amigos
                 </ion-item>
+                <ion-item nav-clear menu-close> <!-- ui-sref="app.gallery" -->
+                    *Fotos
+                </ion-item>
+                <ion-item nav-clear menu-close> <!-- ui-sref="app.friends" -->
+                    *Opções
+                </ion-item>
+                <ion-item nav-clear menu-close>
+                    *Sair
+                </ion-item>
+                <!--
+                <ion-item nav-clear menu-close ui-sref="app.login">
+                    Registro do usuário
+                </ion-item>
+                -->
             </ion-list>
         </ion-content>
     </ion-side-menu>
     <ion-side-menu side="right">
         <ion-header-bar class="dark-bg expanded">
-            <span class="avatar" style="background: url('img/crown.jpg'); background-size: cover;"></span>
-            <h2>QTC</h2>
+            <span class="app-icon"></span>
         </ion-header-bar>
         <ion-content class="stable-bg has-expanded-header">
-            <ion-list>
-                <ion-item nav-clear menu-close ui-sref="app.activity">
-                    Activity
+            <div ng-repeat="usuario in usuarios" >
+                <ion-item class="item-stable item-avatar item-icon-left" ng-click="toggleUsuario(usuario)" ng-class="{active: isUsuarioShown(usuario)}">
+                        <img src="img/mcfly.jpg" style="margin-top:20px;"/>
+                        <div style="font-size: 16px; font-weight: bolder;">{{usuario.nome}}</div>
+                        <div>* 1 de 5 votos para chutar</div>
+                        <div>* 3 de 5 votos para banir</div>
+                        <div>* Bloqueado</div>
+                        <div>* Amigo</div>
                 </ion-item>
-                <ion-item nav-clear menu-close ui-sref="app.login">
-                    Login
+                <ion-item class="item-accordion" ng-show="isUsuarioShown(usuario)">
+                    * Ver perfil
                 </ion-item>
-                <ion-item nav-clear menu-close ui-sref="app.profile">
-                    Profile
+                <ion-item class="item-accordion" ng-show="isUsuarioShown(usuario)">
+                    * Iniciar chat privado
                 </ion-item>
-                <ion-item nav-clear menu-close ui-sref="app.friends">
-                    Friends
+                <ion-item class="item-accordion" ng-show="isUsuarioShown(usuario)">
+                    * Adicionar a lista de amigos
                 </ion-item>
-                <ion-item nav-clear menu-close ui-sref="app.gallery">
-                    Gallery
+                <ion-item class="item-accordion" ng-show="isUsuarioShown(usuario)">
+                    * Compartilhar foto / album
                 </ion-item>
-            </ion-list>
+                <ion-item class="item-accordion" ng-show="isUsuarioShown(usuario)">
+                    * Votar para chutar
+                </ion-item>
+                <ion-item class="item-accordion" ng-show="isUsuarioShown(usuario)">
+                    * Votar para banir
+                </ion-item>
+                <ion-item class="item-accordion" ng-show="isUsuarioShown(usuario)">
+                    * Bloquear
+                </ion-item>
+            </div>
         </ion-content>
     </ion-side-menu>
 </ion-side-menus>

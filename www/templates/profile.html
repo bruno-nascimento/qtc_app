@@ -2,24 +2,24 @@
     <ion-content ng-class="{expanded:$scope.isExpanded}">
         <div class="tabs tabs-dark tabs-icon-top static">
             <a ui-sref="app.activity" class="tab-item">
-                <i class="icon ion-arrow-graph-up-right"></i> Conversas privadas
+                <i class="icon ion-lock-combination"></i> *Conversas privadas
             </a>
             <a ui-sref="app.friends" class="tab-item">
-                <i class="icon ion-android-people"></i> Amigos
+                <i class="icon ion-android-people"></i> *Amigos
             </a>
             <a ui-sref="app.gallery" class="tab-item">
-                <i class="icon ion-images"></i> Galeria
+                <i class="icon ion-images"></i> *Fotos
             </a>
         </div>
-        <div class="list animate-fade-slide-in-right">
-            <ion-item collection-repeat="sala in salas">
-                <a ui-sref="app.chat({room: sala._id})" class="item item-avatar item-icon-right">
-                <img src="{{sala.imagem.src ? sala.imagem.src : 'img/qtc_ico.jpg'}}">
-                <h2>{{sala.nome}}</h2>
-                <p>{{sala.descricao}}</p>
-                <i class="icon ion-person muted">{{sala.usuarios.length}}</i>
-            </a>
-            </ion-item>
+        <div class="list">
+            <div collection-repeat="sala in salas">
+                <a class="item item-avatar item-icon-right" href="#/app/chat?room={{sala._id}}&amp;room_name={{sala.nome}}"> <!-- ui-sref="app.chat({room_name: sala.nome, room: sala._id})" -->
+                    <img ng-src="{{sala.imagem.src ? sala.imagem.src : 'img/qtc_ico.jpg'}}">
+                    <h2>{{sala.nome}}</h2>
+                    <p>{{sala.descricao}}</p>
+                    <i class="icon ion-person muted">{{sala.usuarios.length}}</i>
+                </a>
+            </div>
             <a class="item item-avatar item-icon-right" ng-show="salas.length < 1">
                 <img src="img/qtc_ico.jpg">
                 <h2>Nenhuma sala encontrada.</h2>
